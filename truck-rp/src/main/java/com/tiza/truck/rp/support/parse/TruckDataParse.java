@@ -13,6 +13,7 @@ import com.tiza.truck.rp.support.util.KafkaUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.storm.guava.collect.Lists;
 import org.apache.storm.guava.collect.Maps;
@@ -50,12 +51,12 @@ public class TruckDataParse extends DataParseAdapter {
     @Override
     public void detach(DeviceData deviceData) {
         String device = deviceData.getDeviceId();
+        byte[] bytes = deviceData.getBytes();
 
-        byte[] bytes = device.getBytes();
+        log.info("透传数据[{}]", CommonUtil.bytesToStr(bytes));
         if (bytes == null || bytes.length < 10) {
             return;
         }
-
         Map paramMap = new HashMap();
         ByteBuf buf = Unpooled.copiedBuffer(bytes);
         while (buf.readableBytes() > 9) {
@@ -66,12 +67,14 @@ public class TruckDataParse extends DataParseAdapter {
             Map pack = unpack(id, content);
             paramMap.putAll(pack);
         }
-        // 更新工况当前信息
-        updateWorkInfo(device, paramMap);
 
-        VehicleInfo vehicleInfo = (VehicleInfo) vehicleInfoProvider.get(device);
-        // 写入kafka 轨迹数据
-        sendToTStar(String.valueOf(vehicleInfo.getId()), deviceData.getCmdId(), JacksonUtil.toJson(paramMap), deviceData.getTime(), workTopic);
+        if (MapUtils.isNotEmpty(paramMap)){
+            // 更新工况当前信息
+            updateWorkInfo(device, paramMap);
+            VehicleInfo vehicleInfo = (VehicleInfo) vehicleInfoProvider.get(device);
+            // 写入kafka 轨迹数据
+            sendToTStar(String.valueOf(vehicleInfo.getId()), deviceData.getCmdId(), JacksonUtil.toJson(paramMap), deviceData.getTime(), workTopic);
+        }
     }
 
     @Override

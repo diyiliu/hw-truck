@@ -1,5 +1,5 @@
 rootProject.name = 'hw-truck'
-//includeFlat 'tstar-plugin'
+includeFlat 'tstar-plugin'
 
 include 'truck-gw'
 include 'truck-rp'
