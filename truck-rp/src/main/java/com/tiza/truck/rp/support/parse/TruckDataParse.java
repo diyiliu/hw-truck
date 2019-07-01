@@ -7,6 +7,7 @@ import com.tiza.plugin.model.DeviceData;
 import com.tiza.plugin.model.Position;
 import com.tiza.plugin.model.adapter.DataParseAdapter;
 import com.tiza.plugin.util.CommonUtil;
+import com.tiza.plugin.util.DateUtil;
 import com.tiza.plugin.util.JacksonUtil;
 import com.tiza.truck.rp.support.model.KafkaMsg;
 import com.tiza.truck.rp.support.util.KafkaUtil;
@@ -52,6 +53,35 @@ public class TruckDataParse extends DataParseAdapter {
     public void detach(DeviceData deviceData) {
         String device = deviceData.getDeviceId();
         byte[] bytes = deviceData.getBytes();
+
+        // 指令应答
+        if ("cmdResp".equals(deviceData.getDataType())) {
+            int cmd = deviceData.getCmdId();
+            int resp = deviceData.getDataStatus();
+            String hms = DateUtil.dateToString(new Date(deviceData.getTime()), "%1$tH%1$tM%1$tS");
+
+            String sql = "UPDATE serv_command_send t" +
+                    "   SET t.response_time = ?, t.response_data = ?, t.send_status = ?" +
+                    " WHERE t.terminal_no = ?" +
+                    "   AND t.command_id = ?" +
+                    "   AND t.serial_id = ?";
+
+            // 3成功;4失败
+            int status = 4;
+            String respData = null;
+            if (resp == 1) {
+                status = 3;
+                Object object = deviceData.getDataBody();
+                if (object != null) {
+                    respData = JacksonUtil.toJson(object);
+                }
+            }
+
+            Object[] param = new Object[]{new Date(), respData, status, device, cmd, hms};
+            jdbcTemplate.update(sql, param);
+            log.info("指令应答[{}, {}, {}, {}]", device, cmd, hms, respData);
+            return;
+        }
 
         log.info("透传数据[{}]", CommonUtil.bytesToStr(bytes));
         if (bytes == null || bytes.length < 10) {

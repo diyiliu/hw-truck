@@ -1,0 +1,15 @@
+# https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle/#common-application-properties
+# SPRING
+spring:
+  profiles:
+    active: dev
+
+  #json
+  jackson:
+    locale: zh_CN
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+# LOGGING
+logging:
+  config: 'classpath:logback.xml'

@@ -1,3 +1,5 @@
+package com.tiza.truck.gw;
+
 import cn.com.tiza.tstar.common.entity.TStarData;
 import cn.com.tiza.tstar.gateway.handler.BaseUserDefinedHandler;
 import com.tiza.plugin.util.CommonUtil;
@@ -8,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.Date;
 
 /**
- * Description: TruckHandler
+ * Description: com.tiza.truck.gw.TruckHandler
  * Author: DIYILIU
  * Update: 2019-06-19 14:48
  */

@@ -1,0 +1,25 @@
+# WEB PROPERTIES
+server:
+  port: 8080
+
+# SPRING
+spring:
+  # DATASOURCE
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.161:13306/tizahw?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+
+  # jpa
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+tstar:
+  username: mstar
+  password: 123456
+  terminal-type: mstar_truck

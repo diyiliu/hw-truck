@@ -1,3 +1,5 @@
+package com.tiza.truck.gw;
+
 import cn.com.tiza.tstar.gateway.codec.CustomDecoder;
 import com.tiza.plugin.util.CommonUtil;
 import io.netty.buffer.ByteBuf;
@@ -8,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * Description: TruckDecoder
+ * Description: com.tiza.truck.gw.TruckDecoder
  * Author: DIYILIU
  * Update: 2019-06-19 14:46
  */

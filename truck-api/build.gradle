@@ -1,0 +1,60 @@
+group 'com.tiza'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+ext {
+    springBootVersion = '2.1.0.RELEASE'
+}
+
+dependencies {
+    compile fileTree(dir: project(':tstar-plugin').projectDir.path + "/libs/tstar-datainterface/tstar-datainterface-client", include: "*.jar")
+    compile fileTree(dir: project(':tstar-plugin').projectDir.path + "/libs/tstar-datainterface/tstar-datainterface-service", include: "**/*.jar")
+    compile project(':tstar-plugin')
+
+    // spring-boot
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion") {
+        exclude group: 'ch.qos.logback'
+    }
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "$springBootVersion") {
+        exclude group: 'ch.qos.logback'
+    }
+    compile group: 'com.alibaba', name: 'druid', version: '1.1.12'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+// 设置编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+bootJar {
+    version = ''
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE")
+    }
+}

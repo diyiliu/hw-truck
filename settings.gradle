@@ -3,4 +3,5 @@ includeFlat 'tstar-plugin'
 
 include 'truck-gw'
 include 'truck-rp'
+include 'truck-api'
 
