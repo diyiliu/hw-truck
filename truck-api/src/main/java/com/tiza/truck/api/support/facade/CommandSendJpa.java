@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CommandSendJpa extends JpaRepository<CommandSend, Long> {
 
+//    CommandSend findById(Long id);
 }

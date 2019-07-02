@@ -42,7 +42,7 @@ public class TruckController {
 
     @GetMapping("/send/{id}")
     public String sendCmd(@PathVariable Long id) throws Exception {
-        CommandSend commandSend = commandSendJpa.findById(id).get();
+        CommandSend commandSend = commandSendJpa.getOne(id);
 
         int cmd = commandSend.getCmdId();
         String vin = commandSend.getTerminalNo();

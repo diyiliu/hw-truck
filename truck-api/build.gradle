@@ -1,22 +1,21 @@
 group 'com.tiza'
 version '1.0'
 
+
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 
 repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
 }
 
 ext {
-    springBootVersion = '2.1.0.RELEASE'
+    springBootVersion = '1.5.9.RELEASE'
 }
 
 dependencies {
@@ -41,8 +40,8 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-bootJar {
-    version = ''
+jar {
+    archiveName = 'truck-api.jar'
 }
 
 buildscript {
@@ -50,11 +49,10 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
+
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
     }
 }
