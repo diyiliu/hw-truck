@@ -1,12 +1,16 @@
 group 'com.tiza'
 version '1.0'
 
-
 apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: "org.springframework.boot"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
 
 repositories {
     mavenLocal()
@@ -15,7 +19,7 @@ repositories {
 }
 
 ext {
-    springBootVersion = '1.5.9.RELEASE'
+    springBootVersion = '2.1.0.RELEASE'
 }
 
 dependencies {
@@ -40,8 +44,8 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-jar {
-    archiveName = 'truck-api.jar'
+bootJar {
+    version = ''
 }
 
 buildscript {
@@ -49,10 +53,10 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE")
     }
 }
+
